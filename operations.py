@@ -50,20 +50,21 @@ def update_global_multisig(
 if __name__ == "__main__":
     client = CommuneClient(url="wss://commune.api.onfinality.io/public-ws")
 
-    my_multisig = classic_load_key("signing_account")
+    my_multisig = classic_load_key("ronaldo")
 
     threshold = 3
 
     signatories: list[Ss58Address] = [
-        "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW" # Ho
-        "5GWDrAW9sUTAwB53wjBYyBUngncnGww7b4GAnaGPp7PjRpQD" # Ti
-        "5HHPz5GdvSCw3WNZWVGy6ejgqwVA3oAKUPeaqw9aEDxDokaS" # Hu
-        "5E49Ry24q9JwB9AvUR2igfJHeqsDXmPuXRzC6jBqdHEgpE1X" # Fa
-        "5FHqJ94yptoK4ELSBqvJV4k3PKJXLsRUrKpVc6VFLUBgUZfG" # Co
+        "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW",  # Ho
+        "5GWDrAW9sUTAwB53wjBYyBUngncnGww7b4GAnaGPp7PjRpQD",  # Ti
+        "5HHPz5GdvSCw3WNZWVGy6ejgqwVA3oAKUPeaqw9aEDxDokaS",  # Hu
+        "5E49Ry24q9JwB9AvUR2igfJHeqsDXmPuXRzC6jBqdHEgpE1X",  # Fa
+        "5FHqJ94yptoK4ELSBqvJV4k3PKJXLsRUrKpVc6VFLUBgUZfG",  # Co
     ]
-    
+
     input(f"enter if you agree with the parameters ? {params}")
 
-    result = (update_global_multisig(client, my_multisig,signatories, threshold, params))
+    result = (update_global_multisig(
+        client, my_multisig, signatories, threshold, params))
 
     print(f"it ended up like this: {result}")
