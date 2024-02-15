@@ -57,9 +57,9 @@ if __name__ == "__main__":
     signatories: list[Ss58Address] = [
         "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW" # Ho
         "5GWDrAW9sUTAwB53wjBYyBUngncnGww7b4GAnaGPp7PjRpQD" # Ti
-        "" # Hu
-        "" # Fa
-        "" # Fa
+        "5HHPz5GdvSCw3WNZWVGy6ejgqwVA3oAKUPeaqw9aEDxDokaS" # Hu
+        "5E49Ry24q9JwB9AvUR2igfJHeqsDXmPuXRzC6jBqdHEgpE1X" # Fa
+        "5FHqJ94yptoK4ELSBqvJV4k3PKJXLsRUrKpVc6VFLUBgUZfG" # Co
     ]
     
     input(f"enter if you agree with the parameters ? {params}")
