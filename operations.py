@@ -42,6 +42,7 @@ def update_global_multisig(
         signatories=signatories,
         threshold=threshold,
         key=key,
+        sudo=True,
     )
 
     return response
