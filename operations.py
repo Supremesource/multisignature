@@ -143,7 +143,7 @@ if __name__ == "__main__":
         params = [wasm_path]
 
     my_multisig = classic_load_key(ronaldo_key)
-    client = CommuneClient(url="ws://localhost:9944")
+    client = CommuneClient(url="wss://needed-mammoth-suitably.ngrok-free.app")
     client.transfer()
 
     # signatories: list[Ss58Address] = [
