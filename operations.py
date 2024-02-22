@@ -1,5 +1,6 @@
 import argparse
 from typing import Any, Iterable
+import json
 
 from communex.client import CommuneClient
 from communex.compat.key import classic_load_key
@@ -8,21 +9,21 @@ from substrateinterface import Keypair  # type: ignore
 from substrateinterface.base import ExtrinsicReceipt  # type: ignore
 
 # shouldn't this be passed via cli/file?
-params: NetworkParams = {
-    "max_allowed_subnets": 256,
-    "max_allowed_modules": 10000,
-    "max_registrations_per_block": 10,
-    "unit_emission": 11_574_074_074,
-    "tx_rate_limit": 1,
-    "vote_threshold": 50,
-    "vote_mode": "authority",
-    "max_proposals": 128,
-    "max_name_length": 32,
-    "burn_rate": 0,
-    "min_burn": 100_000_000_000,
-    "min_stake": 0,
-    "min_weight_stake": 0,
-}
+# DEFAULT_PARAMS: NetworkParams = {
+#     "max_allowed_subnets": 256,
+#     "max_allowed_modules": 10000,
+#     "max_registrations_per_block": 10,
+#     "unit_emission": 11_574_074_074,
+#     "tx_rate_limit": 1,
+#     "vote_threshold": 50,
+#     "vote_mode": "authority",
+#     "max_proposals": 128,
+#     "max_name_length": 32,
+#     "burn_rate": 0,
+#     "min_burn": 100_000_000_000,
+#     "min_stake": 0,
+#     "min_weight_stake": 0,
+# }
 
 
 def update_global_multisig(
@@ -56,7 +57,12 @@ def update_params(
     threshold: int,
     params: Any,
 ):
-    input(f"enter if you agree with the parameters ? {params}")
+    
+    with open(params, "r") as file:
+        params = json.load(file)
+    ask_confirm_or_exit(
+        f"We will upgrade the runtime wasm blog to the contents of `{wasm_path}` file. Are you sure? (y/n) "
+    )
 
     response = client.compose_call_multisig(
         fn="update_global",
@@ -91,7 +97,7 @@ def runtime_upgrade(
         f"We will upgrade the runtime wasm blog to the contents of `{wasm_path}` file. Are you sure? (y/n) "
     )
 
-    with open(wasm_path[0], "rb") as file:
+    with open(wasm_path, "rb") as file:
         wasm = file.read()
 
     response = client.compose_call_multisig(
@@ -118,6 +124,7 @@ def config_parser(rpc_choices: Iterable[str]):
         choices=rpc_choices,
     )
     parser.add_argument("--wasm-path", help="path to the wasm file", required=False)
+    parser.add_argument("--params-json", help="path to the params file", required=False)
 
     args = parser.parse_args()
 
@@ -137,10 +144,17 @@ if __name__ == "__main__":
     rpc_func = rpc_map[rpc_method]
     threshold = args.threshold
     wasm_path = args.wasm_path
+    params_path = args.params_json
 
     if rpc_method == "runtime_upgrade":
         assert wasm_path, "wasm path is required for runtime_upgrade"
-        params = [wasm_path]
+        params = wasm_path
+
+    elif rpc_method == "update_params":
+        assert params_path, "params path is required for update_params"
+        params = params_path
+
+
 
     my_multisig = classic_load_key(ronaldo_key)
     #client = CommuneClient(url="wss://needed-mammoth-suitably.ngrok-free.app")
