@@ -57,6 +57,8 @@ def update_params(
     threshold: int,
     params: Any,
     ):
+    input(f"enter if you agree with the parameters ? {params}")
+
     response = client.compose_call_multisig(
     fn="update_global",
     module="SubspaceModule",
@@ -82,12 +84,14 @@ def runtime_upgrade(
     if cont != "y":
         print("Aborted.")
         exit(0)
-    with open(wasm_path, "rb") as file:
+
+    with open(wasm_path[0], "rb") as file:
         wasm = file.read()
 
+    breakpoint()
     response = client.compose_call_multisig(
-    fn="setCode",
-    module="system",
+    fn="set_code",
+    module="System",
     params=wasm,
     signatories=signatories,
     threshold=threshold,
@@ -137,7 +141,7 @@ if __name__ == "__main__":
         params = [wasm_path]
     
     my_multisig = classic_load_key(ronaldo_key)
-    client = CommuneClient(url="wss://localhost:9944")
+    client = CommuneClient(url="ws://localhost:9944")
 
     # signatories: list[Ss58Address] = [
     #     "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW",  # Ho
@@ -153,7 +157,6 @@ if __name__ == "__main__":
         "5D4oWCPSTBT2ZyQAy8b4xqrNzmUQfARr6ZjN3zr62eyqDz36",
     ]
 
-    input(f"enter if you agree with the parameters ? {params}")
 
     result = rpc_func(
         client, my_multisig, multi_sig_addr, threshold, params
