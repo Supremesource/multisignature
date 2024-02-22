@@ -9,21 +9,21 @@ from substrateinterface import Keypair  # type: ignore
 from substrateinterface.base import ExtrinsicReceipt  # type: ignore
 
 # shouldn't this be passed via cli/file?
-# DEFAULT_PARAMS: NetworkParams = {
-#     "max_allowed_subnets": 256,
-#     "max_allowed_modules": 10000,
-#     "max_registrations_per_block": 10,
-#     "unit_emission": 11_574_074_074,
-#     "tx_rate_limit": 1,
-#     "vote_threshold": 50,
-#     "vote_mode": "authority",
-#     "max_proposals": 128,
-#     "max_name_length": 32,
-#     "burn_rate": 0,
-#     "min_burn": 100_000_000_000,
-#     "min_stake": 0,
-#     "min_weight_stake": 0,
-# }
+params: NetworkParams = {
+    "max_allowed_subnets": 256,
+    "max_allowed_modules": 10000,
+    "max_registrations_per_block": 4,
+    "unit_emission": 23148148148,
+    "tx_rate_limit": 1,
+    "vote_threshold": 50,
+    "vote_mode": "authority",
+    "max_proposals": 128,
+    "max_name_length": 32,
+    "burn_rate": 0,
+    "min_burn": 20_000_000_000,
+    "min_stake": 100_000_000_000,
+    "min_weight_stake": 0,
+}
 
 
 def update_global_multisig(
