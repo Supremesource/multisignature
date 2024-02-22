@@ -123,7 +123,7 @@ def config_parser(rpc_choices: Iterable[str]):
         help="rpc call to execute",
         choices=rpc_choices,
     )
-    parser.add_argument("--wasm-path", help="path to the wasm file", required=False)
+    parser.add_argument("--wasm-path", help="path to the wasm file", required=False, default=None)
     parser.add_argument("--params-json", help="path to the params file", required=False)
 
     args = parser.parse_args()
@@ -174,6 +174,6 @@ if __name__ == "__main__":
     #     "5D4oWCPSTBT2ZyQAy8b4xqrNzmUQfARr6ZjN3zr62eyqDz36",
     # ]
 
-    result = rpc_func(client, my_multisig, signatories, threshold, params)
+    result = rpc_func(client, my_multisig, signatories, threshold, wasm_path)
 
     print(f"it ended up like this: {result}")
