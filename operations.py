@@ -143,22 +143,18 @@ if __name__ == "__main__":
         params = [wasm_path]
 
     my_multisig = classic_load_key(ronaldo_key)
-    client = CommuneClient(url="ws://localhost:9944")
+    client = CommuneClient(url="wss://commune-api-node-1.communeai.net")
+    client.transfer()
 
-    # signatories: list[Ss58Address] = [
-    #     "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW",  # Ho
-    #     "5GWDrAW9sUTAwB53wjBYyBUngncnGww7b4GAnaGPp7PjRpQD",  # Ti
-    #     "5HHPz5GdvSCw3WNZWVGy6ejgqwVA3oAKUPeaqw9aEDxDokaS",  # Hu
-    #     "5E49Ry24q9JwB9AvUR2igfJHeqsDXmPuXRzC6jBqdHEgpE1X",  # Fa
-    #     "5FHqJ94yptoK4ELSBqvJV4k3PKJXLsRUrKpVc6VFLUBgUZfG",  # Co
-    # ]
-
-    multi_sig_addr: list[Ss58Address] = [
-        "5FRE6GqpW1G6o65kk3ib2Ea28Ah4FR6F3EeZJfmBwd3XwHXq",
-        "5EZJYuTFdkzkLZew7Tnm7phuZrejHBks4XPz3UDZdMh11ALA",
-        "5D4oWCPSTBT2ZyQAy8b4xqrNzmUQfARr6ZjN3zr62eyqDz36",
+    signatories: list[Ss58Address] = [
+        "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW",  # Ho
+        "5GWDrAW9sUTAwB53wjBYyBUngncnGww7b4GAnaGPp7PjRpQD",  # Ti
+        "5HHPz5GdvSCw3WNZWVGy6ejgqwVA3oAKUPeaqw9aEDxDokaS",  # Hu
+        "5E49Ry24q9JwB9AvUR2igfJHeqsDXmPuXRzC6jBqdHEgpE1X",  # Fa
+        "5FHqJ94yptoK4ELSBqvJV4k3PKJXLsRUrKpVc6VFLUBgUZfG",  # Co
     ]
 
-    result = rpc_func(client, my_multisig, multi_sig_addr, threshold, params)
+
+    result = rpc_func(client, my_multisig, signatories, threshold, params)
 
     print(f"it ended up like this: {result}")
