@@ -144,7 +144,6 @@ if __name__ == "__main__":
 
     my_multisig = classic_load_key(ronaldo_key)
     client = CommuneClient(url="wss://needed-mammoth-suitably.ngrok-free.app")
-    client.transfer()
 
     # signatories: list[Ss58Address] = [
     #     "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW",  # Ho
