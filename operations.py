@@ -9,7 +9,7 @@ from substrateinterface import Keypair  # type: ignore
 from substrateinterface.base import ExtrinsicReceipt  # type: ignore
 
 # shouldn't this be passed via cli/file?
-params: NetworkParams = {
+DEFAULT_PARAMS: NetworkParams = {
     "max_allowed_subnets": 256,
     "max_allowed_modules": 10000,
     "max_registrations_per_block": 4,
@@ -58,16 +58,16 @@ def update_params(
     params: Any,
 ):
     
-    with open(params, "r") as file:
-        params = json.load(file)
+    # with open(params, "r") as file:
+    #     params = json.load(file)
     ask_confirm_or_exit(
-        f"We will upgrade the runtime wasm blog to the contents of `{wasm_path}` file. Are you sure? (y/n) "
+        f"We will upgrade the runtime wasm blog to the contents of `{DEFAULT_PARAMS}` file. Are you sure? (y/n) "
     )
 
     response = client.compose_call_multisig(
         fn="update_global",
         module="SubspaceModule",
-        params=params,
+        params=DEFAULT_PARAMS,
         signatories=signatories,
         threshold=threshold,
         key=key,
@@ -117,12 +117,12 @@ def runtime_upgrade(
 def config_parser(rpc_choices: Iterable[str]):
     parser = argparse.ArgumentParser(description="Update global multisig")
     parser.add_argument("keyname", help="Name of the key to use")
-    parser.add_argument("threshold", help="minimum number of signatures", type=int)
     parser.add_argument(
         "function",
         help="rpc call to execute",
         choices=rpc_choices,
     )
+    parser.add_argument("--threshold", help="minimum number of signatures", type=int)
     parser.add_argument("--wasm-path", help="path to the wasm file", required=False)
     parser.add_argument("--params-json", help="path to the params file", required=False)
 
@@ -150,9 +150,9 @@ if __name__ == "__main__":
         assert wasm_path, "wasm path is required for runtime_upgrade"
         params = wasm_path
 
-    elif rpc_method == "update_params":
-        assert params_path, "params path is required for update_params"
-        params = params_path
+    # elif rpc_method == "update_params":
+    #     assert params_path, "params path is required for update_params"
+    #     params = params_path
 
 
 
