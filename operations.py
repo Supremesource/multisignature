@@ -117,12 +117,12 @@ def runtime_upgrade(
 def config_parser(rpc_choices: Iterable[str]):
     parser = argparse.ArgumentParser(description="Update global multisig")
     parser.add_argument("keyname", help="Name of the key to use")
+    parser.add_argument("threshold", help="minimum number of signatures", type=int)
     parser.add_argument(
         "function",
         help="rpc call to execute",
         choices=rpc_choices,
     )
-    parser.add_argument("--threshold", help="minimum number of signatures", type=int)
     parser.add_argument("--wasm-path", help="path to the wasm file", required=False)
     parser.add_argument("--params-json", help="path to the params file", required=False)
 
