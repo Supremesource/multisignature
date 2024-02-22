@@ -134,6 +134,7 @@ if __name__ == "__main__":
 
     if rpc_method == "runtime_upgrade":
         assert wasm_path, "wasm path is required for runtime_upgrade"
+        params = [wasm_path]
     
     my_multisig = classic_load_key(ronaldo_key)
     client = CommuneClient(url="wss://localhost:9944")
