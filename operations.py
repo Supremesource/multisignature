@@ -49,76 +49,78 @@ def update_global_multisig(
     return response
 
 
-
 def update_params(
     client: CommuneClient,
     key: Keypair,
     signatories: list[Ss58Address],
     threshold: int,
     params: Any,
-    ):
+):
     input(f"enter if you agree with the parameters ? {params}")
 
     response = client.compose_call_multisig(
-    fn="update_global",
-    module="SubspaceModule",
-    params=params,
-    signatories=signatories,
-    threshold=threshold,
-    key=key,
-    sudo=True,
+        fn="update_global",
+        module="SubspaceModule",
+        params=params,
+        signatories=signatories,
+        threshold=threshold,
+        key=key,
+        sudo=True,
     )
     return response
 
 
-def runtime_upgrade(
-        client: CommuneClient,
-        key: Keypair,
-        signatories: list[Ss58Address],
-        threshold: int,
-        wasm_path: Any,
-    ):
-    cont = input(
-        f"Will upgrade the wasm to {wasm_path} file. Are you sure? (y/n)"
-        )
-    if cont != "y":
+def ask_confirm(txt: str):
+    answer = input(txt)
+    return answer.lower() in ["y", "yes"]
+
+def ask_confirm_or_exit(txt: str):
+    confirmed = ask_confirm(txt)
+    if not confirmed:
         print("Aborted.")
-        exit(0)
+        exit(1)
+
+def runtime_upgrade(
+    client: CommuneClient,
+    key: Keypair,
+    signatories: list[Ss58Address],
+    threshold: int,
+    wasm_path: Any,
+):
+    ask_confirm_or_exit(
+        f"We will upgrade the runtime wasm blog to the contents of `{wasm_path}` file. Are you sure? (y/n) "
+    )
 
     with open(wasm_path[0], "rb") as file:
         wasm = file.read()
 
-    breakpoint()
     response = client.compose_call_multisig(
-    fn="set_code",
-    module="System",
-    params=wasm,
-    signatories=signatories,
-    threshold=threshold,
-    key=key,
-    sudo=True,
+        module="System",
+        fn="set_code",
+        params={
+            "code": wasm,
+        },
+        signatories=signatories,
+        threshold=threshold,
+        key=key,
+        sudo=True,
     )
     return response
+
 
 def config_parser(rpc_choices: Iterable[str]):
     parser = argparse.ArgumentParser(description="Update global multisig")
     parser.add_argument("keyname", help="Name of the key to use")
+    parser.add_argument("threshold", help="minimum number of signatures", type=int)
     parser.add_argument(
-        "threshold", 
-        help="minimum number of signatures", 
-        type=int
-    )
-    parser.add_argument(
-        "function", 
+        "function",
         help="rpc call to execute",
         choices=rpc_choices,
     )
-    parser.add_argument(
-        "--wasm-path", help="path to the wasm file", required=False
-        )
-    
+    parser.add_argument("--wasm-path", help="path to the wasm file", required=False)
+
     args = parser.parse_args()
-    
+
     return args
 
 
@@ -139,7 +141,7 @@ if __name__ == "__main__":
     if rpc_method == "runtime_upgrade":
         assert wasm_path, "wasm path is required for runtime_upgrade"
         params = [wasm_path]
-    
+
     my_multisig = classic_load_key(ronaldo_key)
     client = CommuneClient(url="ws://localhost:9944")
 
@@ -157,9 +159,6 @@ if __name__ == "__main__":
         "5D4oWCPSTBT2ZyQAy8b4xqrNzmUQfARr6ZjN3zr62eyqDz36",
     ]
 
-
-    result = rpc_func(
-        client, my_multisig, multi_sig_addr, threshold, params
-    )
+    result = rpc_func(client, my_multisig, multi_sig_addr, threshold, params)
 
     print(f"it ended up like this: {result}")
