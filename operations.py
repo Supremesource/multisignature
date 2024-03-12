@@ -12,7 +12,7 @@ from substrateinterface.base import ExtrinsicReceipt  # type: ignore
 DEFAULT_PARAMS: NetworkParams = {
     "max_allowed_subnets": 256,
     "max_allowed_modules": 10000,
-    "max_registrations_per_block": 4,
+    "max_registrations_per_block": 10,
     "unit_emission": 23148148148,
     "tx_rate_limit": 1,
     "vote_threshold": 50,
@@ -20,9 +20,14 @@ DEFAULT_PARAMS: NetworkParams = {
     "max_proposals": 128,
     "max_name_length": 32,
     "burn_rate": 0,
-    "min_burn": 20_000_000_000,
     "min_stake": 100_000_000_000,
     "min_weight_stake": 0,
+    "min_burn": 5_0000_00_000,
+    "max_burn": 100_000_000_000,
+    "target_registrations_interval": 200,
+    "target_registrations_per_interval" : 100, 
+    "floor_delegation_fee": 5,
+    "adjustment_alpha": 4611686018427388000,
 }
 
 
@@ -157,9 +162,8 @@ if __name__ == "__main__":
 
 
     my_multisig = classic_load_key(ronaldo_key)
-    #client = CommuneClient(url="wss://needed-mammoth-suitably.ngrok-free.app")
+    # client = CommuneClient(url="wss://needed-mammoth-suitably.ngrok-free.app")
     client = CommuneClient(url="wss://commune-api-node-1.communeai.net")
-
     signatories: list[Ss58Address] = [
         "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW",  # Ho
         "5GWDrAW9sUTAwB53wjBYyBUngncnGww7b4GAnaGPp7PjRpQD",  # Ti
@@ -167,6 +171,7 @@ if __name__ == "__main__":
         "5E49Ry24q9JwB9AvUR2igfJHeqsDXmPuXRzC6jBqdHEgpE1X",  # Fa
         "5FHqJ94yptoK4ELSBqvJV4k3PKJXLsRUrKpVc6VFLUBgUZfG",  # Co
     ]
+
 
     # signatories: list[Ss58Address] = [
     #     "5FRE6GqpW1G6o65kk3ib2Ea28Ah4FR6F3EeZJfmBwd3XwHXq",
