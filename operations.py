@@ -1,6 +1,5 @@
 import argparse
 from typing import Any, Iterable
-import json
 
 from communex.client import CommuneClient
 from communex.compat.key import classic_load_key
@@ -21,11 +20,11 @@ DEFAULT_PARAMS: NetworkParams = {
     "max_name_length": 32,
     "burn_rate": 0,
     "min_stake": 100_000_000_000,
-    "min_weight_stake": 0,
-    "min_burn": 5_0000_00_000,
+    "min_weight_stake": 20_000_000_000,
+    "min_burn": 2_500_000_000,
     "max_burn": 100_000_000_000,
     "target_registrations_interval": 200,
-    "target_registrations_per_interval" : 100, 
+    "target_registrations_per_interval" : 25, 
     "floor_delegation_fee": 5,
     "adjustment_alpha": 4611686018427388000,
 }
