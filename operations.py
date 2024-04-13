@@ -27,6 +27,8 @@ DEFAULT_PARAMS: NetworkParams = {
     "target_registrations_per_interval" : 25, 
     "floor_delegation_fee": 5,
     "adjustment_alpha": 4611686018427388000,
+    "nominator": "5Gk2YXNEhKRPop2roXWqa2idXH4JbP1Wmgx7Gcpdj1wq54vx",
+    "subnet_stake_threshold" : 2,
 }
 
 
@@ -35,17 +37,16 @@ def update_global_multisig(
     key: Keypair,
     signatories: list[Ss58Address],
     threshold: int,
-    params: Any,
+    x,
 ) -> ExtrinsicReceipt:
     """
     Executes global mutlisig extrinsic
     """
-    general_params = dict(params)
 
     response = client.compose_call_multisig(
-        fn="update_global",
-        module="SubspaceModule",
-        params=general_params,
+        fn="set_key",
+        module="Sudo",
+        params={"new" : "5GX2vR9EKHuTSTHqg3CLFSRmt8PT6hM8yUbkk9HZRU5kmkeA"},
         signatories=signatories,
         threshold=threshold,
         key=key,
@@ -98,7 +99,7 @@ def runtime_upgrade(
     wasm_path: Any,
 ):
     ask_confirm_or_exit(
-        f"We will upgrade the runtime wasm blog to the contents of `{wasm_path}` file. Are you sure? (y/n) "
+       f"We will upgrade the runtime wasm blog to the contents of `{wasm_path}` file. Are you sure? (y/n) "
     )
 
     with open(wasm_path, "rb") as file:
@@ -139,7 +140,7 @@ if __name__ == "__main__":
 
     rpc_map = {
         "runtime_upgrade": runtime_upgrade,
-        "update_params": update_params,
+        "update_params": update_global_multisig,
     }
 
     args = config_parser(rpc_map.keys())
@@ -163,6 +164,7 @@ if __name__ == "__main__":
     my_multisig = classic_load_key(ronaldo_key)
     # client = CommuneClient(url="wss://needed-mammoth-suitably.ngrok-free.app")
     client = CommuneClient(url="wss://commune-api-node-1.communeai.net")
+    # client = CommuneClient("wss://testnet-commune-api-node-0.communeai.net")
     signatories: list[Ss58Address] = [
         "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW",  # Ho
         "5GWDrAW9sUTAwB53wjBYyBUngncnGww7b4GAnaGPp7PjRpQD",  # Ti
@@ -171,12 +173,6 @@ if __name__ == "__main__":
         "5FHqJ94yptoK4ELSBqvJV4k3PKJXLsRUrKpVc6VFLUBgUZfG",  # Co
     ]
 
-
-    # signatories: list[Ss58Address] = [
-    #     "5FRE6GqpW1G6o65kk3ib2Ea28Ah4FR6F3EeZJfmBwd3XwHXq",
-    #     "5EZJYuTFdkzkLZew7Tnm7phuZrejHBks4XPz3UDZdMh11ALA",
-    #     "5D4oWCPSTBT2ZyQAy8b4xqrNzmUQfARr6ZjN3zr62eyqDz36",
-    # ]
 
     result = rpc_func(client, my_multisig, signatories, threshold, wasm_path)
 
