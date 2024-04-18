@@ -166,11 +166,11 @@ if __name__ == "__main__":
     client = CommuneClient(url="wss://commune-api-node-1.communeai.net")
     # client = CommuneClient("wss://testnet-commune-api-node-0.communeai.net")
     signatories: list[Ss58Address] = [
-        "5ELSoV9ntKSgjLQ2UQzUqkvQnpGoJyHWjo4cSp2w5yiEuSwW",  # Ho
-        "5GWDrAW9sUTAwB53wjBYyBUngncnGww7b4GAnaGPp7PjRpQD",  # Ti
-        "5HHPz5GdvSCw3WNZWVGy6ejgqwVA3oAKUPeaqw9aEDxDokaS",  # Hu
-        "5E49Ry24q9JwB9AvUR2igfJHeqsDXmPuXRzC6jBqdHEgpE1X",  # Fa
-        "5FHqJ94yptoK4ELSBqvJV4k3PKJXLsRUrKpVc6VFLUBgUZfG",  # Co
+    "5GnXkyoCGVHD7PL3ZRGM2oELpUhDG6HFqAHZT3hHTmFD8CZF",  # Ho
+    "5HYB5wVSTfnnpdZhCghk4qpoz8AjZzRiJNXdTLVNkZme18nN",  # Ti
+    "5DAFjxqp9anjBNJfji2eLsYAj8L1tjsT4kfnFNpbhZtvA9u5",  # Hu
+    "5GZBhMZZRMWCiqgqdDGZCGo16Kg5aUQUcpuUGWwSgHn9HbRC",  # Fa
+    "5Ccp9v5nwQTHhbe7uc2qKu5sv86YZ9wVEwGNCTcSWozPvUV1",  # Co
     ]
 
 
