@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
     my_multisig = classic_load_key(ronaldo_key)
     # client = CommuneClient(url="wss://needed-mammoth-suitably.ngrok-free.app")
-    client = CommuneClient(url="wss://commune-api-node-1.communeai.net")
+    client = CommuneClient(url="wss://commune-api-node-0.communeai.net")
     # client = CommuneClient("wss://testnet-commune-api-node-0.communeai.net")
     signatories: list[Ss58Address] = [
     "5GnXkyoCGVHD7PL3ZRGM2oELpUhDG6HFqAHZT3hHTmFD8CZF",  # Ho
@@ -177,3 +177,6 @@ if __name__ == "__main__":
     result = rpc_func(client, my_multisig, signatories, threshold, wasm_path)
 
     print(f"it ended up like this: {result}")
+
+# 51487cb16da7c4160b93f21d7a133a86c344769fbe10276960f3f1b9b2406c20
+# a82e7d6f3688728964641862881da2ba40f1ec50f12bf1d47d52a49fa242d334
